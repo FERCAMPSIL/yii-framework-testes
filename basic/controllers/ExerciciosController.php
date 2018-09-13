@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Pessoas;
+use yii\data\Pagination;
 use app\models\CadastroModel;
 use yii\base\Controller;
 use yii;
@@ -32,9 +33,22 @@ use yii;
 
     public function actionPessoas(){
 
-        $pessoas = Pessoas::find()->orderBy('nome')->all();
+        $query = Pessoas::find();
+        $pagination = new Pagination([
+            'defaultPageSize'=>3,
+            'totalCount'=>$query->count()
+        ]);
 
-        echo'<pre>'; print_r($pessoas);
+        $pessoas= $query->orderBy('nome')
+                        ->offset($pagination->offset)
+                        ->limit($pagination->limit)
+                        ->all();
+
+        return $this->render('pessoas',[
+            'pessoas'=>$pessoas,
+            'pagination'=>$pagination
+        ]);
+                    
     }
  }
 ?>
