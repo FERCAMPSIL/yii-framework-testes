@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Pessoas;
 use app\models\CadastroModel;
 use yii\base\Controller;
 use yii;
@@ -27,6 +28,13 @@ use yii;
         }
 
         
+    }
+
+    public function actionPessoas(){
+
+        $pessoas = Pessoas::find()->orderBy('nome')->all();
+
+        echo'<pre>'; print_r($pessoas);
     }
  }
 ?>
